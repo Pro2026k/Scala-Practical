@@ -1,0 +1,30 @@
+1B calculate mean,median,and mode of a list of number.
+   Implement basic statistical calculation using scala collections?
+
+object statistics{
+def mean(numbers:List[Double]):Double={
+numbers.sum/numbers.length
+}
+def median(numbers:List[Double]):Double={
+val sorted=numbers.sorted
+val size=sorted.size
+if(size%2==0){
+(sorted(size/2-1)+sorted(size/2))/2
+}else{
+sorted(size/2)
+}
+}
+def mode(numbers:List[Double]):List[Double]={
+val frequencyMap=numbers.groupBy(identity).mapValues(_.size)
+val maxFrequency=frequencyMap.values.max
+frequencyMap.filter(_._2==maxFrequency).keys.toList
+}
+def main(args:Array[String]):Unit={
+val data=List(1.0,2.0,3.0,3.0,4.0,5.0,6.0,6.0,6.0)
+println(s"Data:$data")
+println(s"Mean:${mean(data)}")
+println(s"Mediaan:${median(data)}")
+println(s"Mode:${mode(data)}")
+}
+}
+

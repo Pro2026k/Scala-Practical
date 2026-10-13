@@ -1,0 +1,26 @@
+6B) Perform basic time series in scala generate senthetic time series data
+   (e.g Daily over a month)??
+
+
+import scala.util.Random
+object TimeSeriesAnalysis extends App {
+val days=1 to 30
+val random=new Random()
+val sales:Seq[Double]=days.map(_=>50+random.nextInt(100))
+println("Day\tSales")
+days.zip(sales).foreach{case(d,s)=>println(s"$d\ts")}
+def movingAverage(data:Seq[Double],window:Int):Seq[Double]={
+data.sliding(window).map(windowData=>windowData.sum/windowData.size).toSeq
+}
+val ma7=movingAverage(sales,7)
+println("\n 7-Day Moving Average:")
+ma7.zipWithIndex.foreach{case(avg,i)=>
+println(s"Days${i+1}-${i+7}:$avg")}
+val mean=sales.sum/sales.size
+val max=sales.max
+val min=sales.min
+println("\n Basic Time Series Analysis:")
+println(s"Average Sales:$mean")
+println(s"Max Sales:$max")
+println(s"Min Sales:$min")
+}

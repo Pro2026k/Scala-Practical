@@ -1,0 +1,15 @@
+2C) Slice a breeze matrix to extract a sub-matrix and calculate its row and column sums??
+
+import breeze.linalg._
+object MatriExample {
+def main(args:Array[String]):Unit={
+val matrix1=DenseMatrix((1.0,2.0,3.0,4.0),(5.0,6.0,7.0,8.0),(9.0,10.0,11.0,12.0),(13.0,14.0,15.0,16.0))
+println("matrix=\n"+matrix1)
+val submatrix=matrix1(1 to 2,0 to 2)
+println("submatrix=\n"+submatrix)
+val rowsum=sum(submatrix(*,::))
+val colsum=sum(submatrix(::,*))
+println("row wise sum="+rowsum)
+println("column wise sum="+colsum)
+}
+}

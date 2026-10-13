@@ -1,0 +1,42 @@
+3A) Read a csv file and calculate basic statistics for each numeric column.
+   use the scala-csv library or similar tools??
+
+import breeze.linalg._
+import breeze.stats._
+import com.github.tototoshi.csv._
+import java.io.StringReader
+object csvstatsScalaOnly extends App {
+  val csvData =
+    """Name,Age,Height,Weight
+      |Alice,30,165,68
+      |Bob,25,175,75
+      |Charlie,35,180,85
+      |David,invalid,170,80
+      |""".stripMargin
+  val reader = CSVReader.open(new StringReader(csvData))
+  val rows = reader.allWithHeaders()
+  reader.close()
+  rows.foreach(println)
+  if (rows.isEmpty) {
+    println("csv file is empty")
+    sys.exit(1)
+  }
+  val headers = rows.head.keys.toSeq
+  println(headers)
+  val numericData: Seq[(String, Seq[Double])] =
+    headers.flatMap { col =>
+      val values = rows.flatMap(row => row.get(col).flatMap(_.toDoubleOption))
+      if (values.nonEmpty) Some(col -> values) else None
+    }
+  println(numericData)
+  println("Column\tCount\tMean\tMin\tMax\tstdDev")
+  numericData.foreach { case (col, values) =>
+    val count = values.length
+    val avg = mean(DenseVector(values.toArray))
+    val min = values.min
+    val max = values.max
+    val sd = stddev(DenseVector(values.toArray))
+    println(f"$col\t$count\t$avg%.2f\t$min%.2f\t$max%.2f\t$sd%.2f")
+  }
+}
+

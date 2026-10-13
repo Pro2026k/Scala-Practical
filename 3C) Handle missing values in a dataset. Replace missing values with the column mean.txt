@@ -1,0 +1,62 @@
+3C) Handle missing values in a dataset. Replace missing values with the column mean??
+
+import com.github.tototoshi.csv._
+import java.io.StringReader
+import breeze.linalg._
+import breeze.stats._
+
+object HandleMissingValue extends App {
+  val csvData =
+    """Name,Age,Height,Weight
+      |Alice,30,165,68
+      |Bob,,175,75
+      |Charlie,35,,85
+      |David,null,170,
+      |Eve,25,NA,70
+      |""".stripMargin
+
+  val reader = CSVReader.open(new StringReader(csvData))
+  val rows = reader.allWithHeaders()
+  reader.close()
+
+  val headers = rows.head.keys.toSeq
+
+  // Function to detect missing values
+  val isMissing = (s: String) =>
+    s.trim.isEmpty || s.toLowerCase == "null" || s.toLowerCase == "na"
+
+  // Identify numeric columns
+  val numericColumns = headers.filter { col =>
+    rows.exists { row =>
+      row.get(col).exists { v =>
+        !isMissing(v) && v.forall(c => c.isDigit || c == '.' || c == '-')
+      }
+    }
+  }
+
+  // Compute means for numeric columns
+  val columnMeans: Map[String, Double] = numericColumns.map { col =>
+    val values = rows.flatMap(_.get(col))
+      .filterNot(isMissing)
+      .map(_.toDouble)
+    col -> (if (values.nonEmpty) mean(DenseVector(values.toArray)) else 0.0)
+  }.toMap
+
+  // Replace missing numeric values with column means
+  val cleanedRows = rows.map { row =>
+    row.map {
+      case (col, value) =>
+        if (numericColumns.contains(col) && isMissing(value))
+          col -> f"${columnMeans(col)}%.2f"
+        else
+          col -> value
+    }
+  }
+
+  // Print results
+  println(headers.mkString(","))
+  cleanedRows.foreach { row =>
+    println(headers.map(h => row(h)).mkString(","))
+  }
+}
+

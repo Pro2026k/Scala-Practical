@@ -1,0 +1,22 @@
+8a)set up Apache Spark locally encounter frequency of world in a file 
+
+
+# pip install pyspark
+from pyspark.sql import import SparkSession
+# Start Spark session
+spark = SparkSession.builder.appName("FilterCSV").getOrCreate()
+
+# Read CSV file into Dataframe
+df = spark.read.csv("/content/data.csv", header = True, inferSchema = True)
+
+# Show original data
+print("Original Data:")
+df.show()
+
+# Filter rows where salary > 50000
+filtered_df = df.filter(df["salary"] > 50000)
+print("Filtered Data (salary > 50000):")
+filtered_df.show()
+
+# Stop Spark
+spark.stop()

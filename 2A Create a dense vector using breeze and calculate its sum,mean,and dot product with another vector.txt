@@ -1,0 +1,17 @@
+2A Create a dense vector using breeze and calculate its sum,mean,and dot product with another vector??
+
+import breeze.linalg._
+import breeze.stats._
+object BreezeExample extends App {
+  val vector1 = DenseVector(1.0, 2.0, 3.0, 4.0, 5.0)
+  val s = sum(vector1)
+  val m = mean(vector1)
+  val vector2 = DenseVector(5.0, 4.0, 3.0, 2.0, 1.0)
+  val dotproduct = vector1 dot vector2
+  println(s"vector1: $vector1")
+  println(s"vector2: $vector2")
+  println(s"Sum of vector1: $s")
+  println(s"Mean of vector1: $m")
+  println(s"Dot Product of vector1 and vector2: $dotproduct")
+}
+

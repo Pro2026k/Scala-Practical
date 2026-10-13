@@ -1,0 +1,14 @@
+6A) Calculate moving average of a time simulate using scala collection??
+
+object MovingAverageExample extends App {
+val sales:Seq[Double]=Seq(100,120,90,130,150,170,160,180,200,210)
+println("Original sales Data:")
+println(sales.mkString(","))
+def movingAverage(data:Seq[Double],window:Int):Seq[Double]={
+data.sliding(window).map(windowData=>windowData.sum/windowData.size).toSeq
+}
+val ma3=movingAverage(sales,3)
+println("\n 3-Day Moving Average:")
+println(ma3.mkString(","))
+}
+

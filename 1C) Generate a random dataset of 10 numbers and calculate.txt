@@ -1,0 +1,25 @@
+1c) Generate a random dataset of 10 numbers and calculate
+   its variance and standard deviation?
+
+import scala.util.Random
+import math.sqrt
+object statistics{
+def mean(numbers:List[Double]):Double={
+numbers.sum/numbers.length
+}
+def variance(numbers:List[Double]):Double={
+val m=mean(numbers)
+numbers.map(x=>math.pow(x-m,2)).sum/numbers.length
+}
+def standardDeviation(numbers:List[Double]):Double={
+sqrt(variance(numbers))
+}
+def main(args:Array[String]):Unit={
+val randomData=List.fill(10)(Random.nextInt(100)+1).map(_.toDouble)
+println(s"Random Dataset:$randomData")
+var varValue=variance(randomData)
+var stdDevValue=standardDeviation(randomData)
+println(s"Variance:$varValue")
+println(s"Standard Deviation:$stdDevValue")
+}
+}

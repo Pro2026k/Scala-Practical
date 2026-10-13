@@ -1,0 +1,25 @@
+2D) Write a program to perform element-wise Addition,Division,Subtraction,& Multiplication of two breeze matrices??
+
+import breeze.linalg._
+object ElementWiseOperations extends App {
+  val A = DenseMatrix(
+    (1.0, 2.0, 3.0),
+    (4.0, 5.0, 6.0),
+    (7.0, 8.0, 9.0)
+  )
+  val B = DenseMatrix(
+    (9.0, 8.0, 7.0),
+    (6.0, 5.0, 4.0),
+    (3.0, 2.0, 1.0)
+  )
+  val addition = A + B
+  val subtraction = A - B
+  val multiplication = A *:* B   
+  val division = A /:/ B
+  println("Matrix A:\n" + A)
+  println("Matrix B:\n" + B)
+  println("Addition (A+B):\n" + addition)
+  println("Subtraction (A-B):\n" + subtraction)
+  println("Element-wise Multiplication (A*:*B):\n" + multiplication)
+  println("Element-wise Division (A:/ :B):\n" + division)
+}

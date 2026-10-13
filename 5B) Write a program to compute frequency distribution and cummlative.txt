@@ -1,0 +1,16 @@
+5B) Write a program to compute frequency distribution and cummlative 
+   frequency of a data?
+
+val data = List(1, 2, 2, 3, 3, 3, 4, 4, 4, 4)
+val freqDist = data.groupBy(identity).view.mapValues(_.size).toMap
+println("Frequency Distribution:")
+freqDist.toSeq.sortBy(_._1).foreach(println)
+val cumfreq = freqDist.toSeq.sortBy(_._1)
+  .scanLeft((0, 0)) { case ((_, cum), (value, freq)) =>
+    (value, cum + freq)
+  }
+  .tail
+println("\nCumulative Frequency:")
+cumfreq.foreach(println)
+
+

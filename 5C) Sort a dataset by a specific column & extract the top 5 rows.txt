@@ -1,0 +1,17 @@
+5C) Sort a dataset by a specific column & extract the top 5 rows?
+
+case class Record(id: Int, name: String, score: Double)
+
+val data = List(
+  Record(1, "Alice", 88.5),
+  Record(2, "Bob", 92.0),
+  Record(3, "Charlie", 79.5),
+  Record(4, "David", 85.0),
+  Record(5, "Eve", 91.0),
+  Record(6, "Frank", 87.0)
+)
+
+val top5 = data.sortBy(-_.score).take(5)
+
+println("Top 5 records by score:")
+top5.foreach(println)

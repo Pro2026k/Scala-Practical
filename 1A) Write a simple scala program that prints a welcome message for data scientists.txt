@@ -1,0 +1,8 @@
+1) Write a simple scala program that prints a welcome message for data scientists?
+
+
+object main{
+def main(args:Array[String]):Unit={
+println("Welcome to the world of scala")
+}
+}

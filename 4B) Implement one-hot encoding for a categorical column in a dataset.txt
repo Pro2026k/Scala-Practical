@@ -1,0 +1,26 @@
+4B) Implement one-hot encoding for a categorical column in a dataset?
+
+
+object OneHotEncodingExample extends App {
+  val data = List(
+    Map("Name" -> "Alice", "color" -> "Red"),
+    Map("Name" -> "Bob", "color" -> "Blue"),
+    Map("Name" -> "Charlie", "color" -> "Green"),
+    Map("Name" -> "David", "color" -> "Blue"),
+    Map("Name" -> "Eve", "color" -> "Red")
+  )
+  val categories = data.map(_("color")).distinct.sorted
+  def oneHotEncode(category: String): Map[String, Int] = {
+    categories.map { cat =>
+      (s"color_$cat" -> (if (cat == category) 1 else 0))
+    }.toMap
+  }
+  val encodedData = data.map { row =>
+    val oneHot = oneHotEncode(row("color"))
+    row - "color" ++ oneHot
+  }
+  println("Categories: " + categories.mkString(", "))
+  println("\nOne-Hot Encoded Data:")
+  encodedData.foreach(println)
+}
+

@@ -1,0 +1,15 @@
+2B) Generate a random matrix usings breeze and compute its transpose and determinant??
+
+import breeze.linalg._
+import scala.util.Random
+object BreezeMatrixExample {
+  def main(args: Array[String]): Unit = {
+    Random.setSeed(42) 
+    val matrix1: DenseMatrix[Double] = DenseMatrix.rand(3, 3)
+    println("matrix1 =\n" + matrix1)
+    val tranmat = matrix1.t
+    println("transpose of matrix1 =\n" + tranmat)
+    val detmat = det(matrix1)
+    println("determinant of matrix1 = " + detmat)
+  }
+}

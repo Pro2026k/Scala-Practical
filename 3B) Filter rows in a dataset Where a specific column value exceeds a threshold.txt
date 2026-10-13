@@ -1,0 +1,33 @@
+3B) Filter rows in a dataset Where a specific column value exceeds a threshold??
+
+import com.github.tototoshi.csv._
+import java.io.StringReader
+import scala.util.Try
+object FilterRowsByThreshold extends App {
+  val csvData =
+    """Name,Age,Height,Weight
+      |Alice,30,165,68
+      |Bob,25,175,75
+      |Charlie,35,180,85
+      |David,invalid,170,80
+      |""".stripMargin
+  val reader = CSVReader.open(new StringReader(csvData))
+  val rows = reader.allWithHeaders()
+  reader.close()
+  val headers = rows.head.keys.toSeq
+  val targetColumn = "Weight"
+  val threshold = 75.0
+  val filteredRows = rows.filter { row =>
+    row.get(targetColumn)
+      .flatMap(v => Try(v.toDouble).toOption)
+      .exists(_ >= threshold)
+  }
+  println(headers.mkString(","))
+  filteredRows.foreach { row =>
+    println(headers.map(col => row.getOrElse(col, "")).mkString(","))
+  }
+}
+
+
+
+

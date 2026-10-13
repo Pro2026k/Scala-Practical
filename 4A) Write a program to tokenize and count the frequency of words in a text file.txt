@@ -1,0 +1,19 @@
+4A) Write a program to tokenize and count the frequency of words in a text file?
+
+
+object WordFrequencyCounter extends App {
+val text=
+"""Hello World! This is Scala
+Scala is great.Hello again world
+""".stripMargin
+val tokens=text
+.toLowerCase
+.split("\\W+")
+.filter(_.nonEmpty)
+val wordcounts=tokens.groupBy(identity).view.mapValues(_.size).toMap
+println("Word Frequencies:")
+wordcounts.toSeq.sortBy(_._2).foreach{
+case(word,count)=>
+println(f"$word%-10s->$count")
+}
+}

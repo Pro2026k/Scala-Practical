@@ -1,0 +1,14 @@
+7A) Create polynomial freatures from dataset.Given a list of number (e.g((1,2,3)), generate polynomal freatures up to
+   degree3 (e.g((1,1^2,1^3,2,2^2,2^3,3,3^2,3^3))??
+
+import breeze.linalg._
+object PolynomialFeatures extends App {
+val data=DenseVector(1.0,2.0,3.0,4.0)
+val degree=3//up to cubic
+val polyFeatures=data.toArray.flatMap{x=>
+(1 to degree).map(d=>math.pow(x,d))
+}
+val polyVector=DenseVector(polyFeatures)
+println(s"Original data:$data")
+println(s"Polynomial features (degree$degree):$polyVector")
+}

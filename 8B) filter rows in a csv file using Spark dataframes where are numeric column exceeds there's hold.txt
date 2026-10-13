@@ -1,0 +1,22 @@
+8B) filter rows in a csv file using Spark dataframes where are numeric column exceeds there's hold
+
+
+# pip install pyspark
+from pyspark.sql import import SparkSession
+# Create Spark session
+spark = SparkSession.builder.appName("WordCount").getOrCreate()
+
+# Read file
+text_file = spark.sparkContext.textFile("/content/input.txt")
+
+# Word Count
+word_counts = text_file.flatMap(lambda line: line.split(" ")) \
+                       .map(lambda word: (word,1)) \
+                       .reduceByKey(lambda a,b: a+b)
+
+# Show results
+for word, count in word_counts.collect():
+    print(f"Word:{word}, Count:{count}")
+
+# Stop Spark
+spark.stop()
